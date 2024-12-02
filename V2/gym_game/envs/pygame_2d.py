@@ -67,9 +67,9 @@ class Car:
 
     def check_radar(self, degree, horizon):
         if (horizon):
-            max_len = 20 + 10
+            max_len = 35 + 10
         else:
-            max_len = 20 + 13.5
+            max_len = 35 + 13.5
         len = 0
         x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * len)
         y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * len)
@@ -85,9 +85,9 @@ class Car:
 
     def check_radar_for_draw(self, degree, horizon):
         if (horizon):
-            max_len = 20 + 10
+            max_len = 35 + 10
         else:
-            max_len = 20 + 13.5
+            max_len = 35 + 13.5
         len = 0
         x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * len)
         y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * len)
@@ -280,7 +280,7 @@ class PyGame2D:
         ret = [0, 0, 0, 0, 0]
         dis_diff = [10, 13.5, 13.5, 10]
         for i, r in enumerate(radars):
-            ret[i] = int((r[1] - dis_diff[i]) / 2)
+            ret[i] = int((r[1] - dis_diff[i]) / 4)
 
         if  self.car.mode == 'G':
             ret[-1] = 0
