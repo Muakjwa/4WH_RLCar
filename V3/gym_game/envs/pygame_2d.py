@@ -1,5 +1,6 @@
 import pygame
 import math
+import random
 import numpy as np
 
 screen_width = 1000
@@ -67,9 +68,9 @@ class Car:
 
     def check_radar(self, degree, horizon):
         if (horizon):
-            max_len = 20 + 10
+            max_len = 50 + 10
         else:
-            max_len = 20 + 13.5
+            max_len = 50 + 13.5
         len = 0
         x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * len)
         y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * len)
@@ -85,9 +86,9 @@ class Car:
 
     def check_radar_for_draw(self, degree, horizon):
         if (horizon):
-            max_len = 20 + 10
+            max_len = 60 + 10
         else:
-            max_len = 20 + 13.5
+            max_len = 60 + 13.5
         len = 0
         x = int(self.center[0] + math.cos(math.radians(360 - (self.angle + degree))) * len)
         y = int(self.center[1] + math.sin(math.radians(360 - (self.angle + degree))) * len)
@@ -237,12 +238,12 @@ class PyGame2D:
         if action == 4:
             self.car.mode = 'TL'
             self.car.move = 9 # 1/2바퀴
-        if action == 5:
-            self.car.move = 9 # 1/2바퀴
-        if action == 6:
-            self.car.move = 18 # 1바퀴
-        if action == 7:
-            self.car.move = 36 # 2바퀴
+        # if action == 5:
+        #     self.car.move = 9 # 1/2바퀴
+        # if action == 6:
+        #     self.car.move = 18 # 1바퀴
+        # if action == 7:
+        #     self.car.move = 36 # 2바퀴
 
         self.car.update()
         self.car.check_collision()
@@ -277,21 +278,25 @@ class PyGame2D:
     def observe(self):
         # return state
         radars = self.car.radars
-        ret = [0, 0, 0, 0, 0]
+        ret = [0, 0, 0, 0]
         dis_diff = [10, 13.5, 13.5, 10]
         for i, r in enumerate(radars):
-            ret[i] = int((r[1] - dis_diff[i]) / 2)
+            ret[i] = int((r[1] - dis_diff[i]) / 1)
+            if ret[i] < 8 or ret[i] > 50:
+                ret[i] = -1
+            elif random.choice([0,0,0,0,0,0,0,0,0,1]):
+                ret[i] = -1
 
-        if  self.car.mode == 'G':
-            ret[-1] = 0
-        if  self.car.mode == 'DR':
-            ret[-1] = 1
-        if  self.car.mode == 'DL':
-            ret[-1] = 2
-        if  self.car.mode == 'TR':
-            ret[-1] = 3
-        if  self.car.mode == 'TL':
-            ret[-1] = 4
+        # if  self.car.mode == 'G':
+        #     ret[-1] = 0
+        # if  self.car.mode == 'DR':
+        #     ret[-1] = 1
+        # if  self.car.mode == 'DL':
+        #     ret[-1] = 2
+        # if  self.car.mode == 'TR':
+        #     ret[-1] = 3
+        # if  self.car.mode == 'TL':
+        #     ret[-1] = 4
 
 
         return tuple(ret)
