@@ -34,10 +34,10 @@ class Car:
         self.distance = 0
         self.time_spent = 0
         for d in radar_degree:
-            self.check_radar(d[0], d[1]) # degree & horizontal T/F
+            self.check_radar(d[0], d[1]) 
 
         for d in radar_degree:
-            self.check_radar_for_draw(d[0], d[1]) # degree & horizontal T/F
+            self.check_radar_for_draw(d[0], d[1]) 
 
     def draw(self, screen):
         screen.blit(self.rotate_surface, self.pos)
@@ -250,16 +250,10 @@ class PyGame2D:
 
         self.car.radars.clear()
         for d in radar_degree:
-            self.car.check_radar(d[0], d[1]) # degree & horizontal T/F
+            self.car.check_radar(d[0], d[1]) 
 
     def evaluate(self):
         reward = 0
-        """
-        if self.car.check_flag:
-            self.car.check_flag = False
-            reward = 2000 - self.car.time_spent
-            self.car.time_spent = 0
-        """
         if not self.car.is_alive:
             reward = -10000 + self.car.distance + 300 * self.car.current_check - 0.01 * self.car.time_spent
 
@@ -314,14 +308,13 @@ class PyGame2D:
 
         self.car.radars_for_draw.clear()
         for d in radar_degree:
-            self.car.check_radar_for_draw(d[0], d[1]) # degree & horizontal T/F
+            self.car.check_radar_for_draw(d[0], d[1])
 
         pygame.draw.circle(self.screen, (255, 255, 0), check_point[self.car.current_check], 30, 1)
         self.car.draw_collision(self.screen)
         self.car.draw_radar(self.screen)
         self.car.draw(self.screen)
         
-        # 모드 박스 그리기
         modes = ['G', 'DR', 'DL', 'TR', 'TL']
         colors_light = {
             'G': (180, 180, 180),
@@ -356,25 +349,18 @@ class PyGame2D:
                 color = colors_light[mode]
                 font = font_regular
             pygame.draw.rect(self.screen, color, pygame.Rect(i * 200, screen_height, 200, mode_height))
-            # 모드 이름 표시
             text = font.render(mode_name[mode], True, (0, 0, 0))
             text_rect = text.get_rect(center=(i * 200 + 100, screen_height + mode_height//2))
             self.screen.blit(text, text_rect)
 
-        # for i in range(5):
-        #     pygame.draw.rect(self.screen, colors[i], pygame.Rect(i * 200, screen_height, 200, 120))
-
-
         pygame.display.flip()
         self.clock.tick(self.game_speed)
         
-    
     def get_screen(self):
         # Capture the screen as an RGB array
         image_data = pygame.surfarray.array3d(self.screen)
         # Transpose the array to match (Height, Width, Channels)
         return np.transpose(image_data, (1, 0, 2))
-
 
 def get_distance(p1, p2):
 	return math.sqrt(math.pow((p1[0] - p2[0]), 2) + math.pow((p1[1] - p2[1]), 2))

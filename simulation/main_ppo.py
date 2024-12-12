@@ -4,7 +4,7 @@ import math
 import random
 import cv2
 import gym
-import gym_game
+import RL_gym
 import torch
 import torch.nn as nn
 import torch.optim as optim

@@ -1,14 +1,11 @@
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import os
-import numpy as np
 import serial
 import threading
 from collections import deque
 import socket
 import time
 from action_list import actions, action_decision, set_posture, set_distance
+from model.ppo import *
 
 teensy_ports = ['/dev/LeftBack', '/dev/LeftFront', '/dev/RightBack', '/dev/RightFront']
 teensies = [serial.Serial(port, 9600, timeout=1) for port in teensy_ports]
@@ -42,51 +39,6 @@ def perform_action(action):
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
-class ActorCritic(nn.Module):
-    def __init__(self, state_size, action_size):
-        super(ActorCritic, self).__init__()
-        # Actor ???
-        self.actor_fc1 = nn.Linear(state_size, 128)
-        self.actor_fc2 = nn.Linear(128, 128)
-        self.actor_out = nn.Linear(128, action_size)
-        
-        # Critic ???
-        self.critic_fc1 = nn.Linear(state_size, 128)
-        self.critic_fc2 = nn.Linear(128, 128)
-        self.critic_out = nn.Linear(128, 1)
-        
-    def forward(self, state):
-        # Actor ??
-        x = F.relu(self.actor_fc1(state))
-        x = F.relu(self.actor_fc2(x))
-        action_probs = F.softmax(self.actor_out(x), dim=-1)
-        
-        # Critic ??
-        v = F.relu(self.critic_fc1(state))
-        v = F.relu(self.critic_fc2(v))
-        state_value = self.critic_out(v)
-        
-        return action_probs, state_value
-
-def select_action_evaluation(state, model):
-    state = torch.FloatTensor(state).unsqueeze(0).to(device)
-    with torch.no_grad():
-        action_probs, _ = model(state)
-    action = torch.argmax(action_probs, dim=-1).item()
-    return action
-
-
-def load_model(model_path, state_size, action_size):
-    model = ActorCritic(state_size, action_size).to(device)
-    if not os.path.exists(model_path):
-        print(f"?? ??? ?? ? ????: {model_path}")
-        return
-    model.load_state_dict(torch.load(model_path, map_location=device, weights_only= False))
-    model.eval()
-    
-    return model
-
 def do_action(model, state):
     perform_action('S')
     ex_pos = ''
@@ -104,7 +56,7 @@ def do_action(model, state):
         else: 
             state_comb.append(0)
             
-        action = select_action_evaluation(state_comb, model)
+        action = select_action_evaluation(state_comb, model, device)
         
         mode, move = action_decision(action)
 
@@ -151,12 +103,12 @@ def start_server(radar_data):
                     radar_data[i].append(value)
 
 if __name__ == "__main__":
-    ppo_model_path = './episode_3600_model.pth'
+    ppo_model_path = './model/ppo_model.pth'
     
     state_size = 5
     action_size = 8  
 
-    model = load_model(ppo_model_path, state_size, action_size)
+    model = load_model(ppo_model_path, state_size, action_size, device)
 
     radar_data = deque([(0,0,0,0),(0,0,0,0),(0,0,0,0)], maxlen = 3)
 

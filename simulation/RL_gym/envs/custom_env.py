@@ -1,10 +1,9 @@
 import gym
 from gym import spaces
 import numpy as np
-from gym_game.envs.pygame_2d import PyGame2D
+from RL_gym.envs.pygame_2d import PyGame2D
 
 class CustomEnv(gym.Env):
-    #metadata = {'render.modes' : ['human']}
     def __init__(self):
         self.pygame = PyGame2D()
         self.action_space = spaces.Discrete(8)
