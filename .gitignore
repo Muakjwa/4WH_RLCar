@@ -1,5 +1,7 @@
-output/
-output/*
+output/ddqn/model/*
+output/ddqn/video/*
+output/ppo/model/*
+output/ppo/video/*
 
 __pycache__/
 __pycache__/*
