@@ -7,7 +7,7 @@ Software : Autonomous Driving
 
 1. 4Wheel Steering Car observes environment by 4 cameras.
 2. PPO model(RL) decides action based on 4 distance to line from car.
-3. 4Wheel Steering Car do action RL model decides.
+3. 4Wheel Steering Car do action RL model decides.<br>
 (Action mode is only composed by [Go Straight, Go Diagonal, Turn])
 
 ## Hardware
