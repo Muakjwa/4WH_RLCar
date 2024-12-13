@@ -1,4 +1,4 @@
-# AVRL (Autonomous Vehicle based on Reinforcement Learning)
+# AVRL (4Wheel Steering Autonomous Vehicle based on Reinforcement Learning)
 
 This project is performed in Engineering Desing (MECH404)
 
@@ -48,17 +48,17 @@ Software consists of three parts.
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/8ede34cd-045e-48cd-aa54-6f5f9ca5827c" width="300px" >
+      <img src="https://github.com/user-attachments/assets/8ede34cd-045e-48cd-aa54-6f5f9ca5827c" width="200px" >
       <br>
       <em>Straight Mode</em>  
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/8285c611-058e-4d9b-b465-f3f24b64fbaf" width="300px" > 
+      <img src="https://github.com/user-attachments/assets/8285c611-058e-4d9b-b465-f3f24b64fbaf" width="200px" > 
       <br>
       <em>Diagonal Mode</em>
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/ccff4a92-3cb8-4792-ac1c-9894d1f6eda8" width="300px" > 
+      <img src="https://github.com/user-attachments/assets/ccff4a92-3cb8-4792-ac1c-9894d1f6eda8" width="200px" > 
       <br>
       <em>Zero Turn Mode</em> 
     </td>
